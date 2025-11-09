@@ -1,0 +1,5 @@
+{
+  "name": "Itera AI",
+  "description": "Generate a customized travel itinerary based on your preferences using AI. Input your destination, travel dates, companions, and interests to receive a detailed, day-by-day plan with activity and transport suggestions, which you can then download as a PDF.",
+  "requestFramePermissions": []
+}
