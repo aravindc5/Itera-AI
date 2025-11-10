@@ -85,8 +85,9 @@ const TripForm: React.FC<TripFormProps> = ({ preferences, setPreferences, onSubm
             id="duration"
             type="number"
             min="1"
-            value={preferences.duration}
-            onChange={(e) => setPreferences({ ...preferences, duration: parseInt(e.target.value, 10) || 1 })}
+            value={preferences.duration || ''}
+            onChange={(e) => setPreferences({ ...preferences, duration: parseInt(e.target.value, 10) || 0 })}
+            placeholder="e.g., 7"
             className="w-full bg-gray-50 text-gray-900 placeholder-gray-400 border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition"
             required
           />
