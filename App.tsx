@@ -1,10 +1,13 @@
+
 import React, { useState, useEffect } from 'react';
-import Header from './components/Header';
-import TripForm from './components/TripForm';
-import ItineraryDisplay from './components/ItineraryDisplay';
-import LoadingSpinner from './components/LoadingSpinner';
-import { TripPreferences, ItineraryPlan, TravelCompanion, ActivityType, Budget, TravelPace, ItineraryDay, Activity } from './types';
-import { generateItinerary, validateDestination, swapActivity } from './services/geminiService';
+import Header from './components/Header.tsx';
+import TripForm from './components/TripForm.tsx';
+import ItineraryDisplay from './components/ItineraryDisplay.tsx';
+import LoadingSpinner from './components/LoadingSpinner.tsx';
+import Accomplishments from './components/Accomplishments.tsx';
+import WhatsNext from './components/WhatsNext.tsx';
+import { TripPreferences, ItineraryPlan, TravelCompanion, ActivityType, Budget, TravelPace, ItineraryDay, Activity } from './types.ts';
+import { generateItinerary, validateDestination, swapActivity } from './services/geminiService.ts';
 
 /**
  * Creates a "light" version of an itinerary plan by removing the large `imageUrl`
@@ -22,7 +25,7 @@ const stripImagesFromPlan = (plan: ItineraryPlan): ItineraryPlan => {
     };
 };
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
   const initialPreferences: TripPreferences = {
     destination: '',
     startDate: new Date().toISOString().split("T")[0],
@@ -214,13 +217,17 @@ const App: React.FC = () => {
           )}
           
           {!itinerary && !isLoading && (
-            <TripForm 
-              preferences={preferences}
-              setPreferences={setPreferences}
-              onSubmit={handleGenerateItinerary}
-              isLoading={isLoading}
-              destinationValidation={destinationValidation}
-            />
+            <>
+              <TripForm 
+                preferences={preferences}
+                setPreferences={setPreferences}
+                onSubmit={handleGenerateItinerary}
+                isLoading={isLoading}
+                destinationValidation={destinationValidation}
+              />
+              <Accomplishments />
+              <WhatsNext />
+            </>
           )}
 
           {isLoading && <LoadingSpinner />}
@@ -242,5 +249,3 @@ const App: React.FC = () => {
     </div>
   );
 };
-
-export default App;

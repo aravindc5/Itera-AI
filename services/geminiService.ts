@@ -1,5 +1,5 @@
 import { GoogleGenAI, Modality, Type } from "@google/genai";
-import { TripPreferences, ItineraryPlan, ItineraryDay, Activity } from '../types';
+import { TripPreferences, ItineraryPlan, ItineraryDay, Activity } from '../types.ts';
 
 const API_KEY = process.env.API_KEY;
 

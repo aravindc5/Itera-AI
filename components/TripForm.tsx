@@ -1,6 +1,6 @@
 import React from 'react';
-import { TripPreferences, ActivityType, TravelCompanion, Budget, TravelPace } from '../types';
-import { ACTIVITIES, COMPANIONS, BUDGETS, TRAVEL_PACE_OPTIONS } from '../constants';
+import { TripPreferences, ActivityType, TravelCompanion, Budget, TravelPace } from '../types.ts';
+import { ACTIVITIES, COMPANIONS, BUDGETS, TRAVEL_PACE_OPTIONS } from '../constants.tsx';
 
 interface TripFormProps {
   preferences: TripPreferences;

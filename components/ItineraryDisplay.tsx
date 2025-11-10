@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { ItineraryPlan, WeatherInfo, Activity, ItineraryDay } from '../types';
-import { SunIcon, PartlyCloudyIcon, CloudIcon, RainIcon, ThunderstormIcon } from '../constants';
+import { ItineraryPlan, WeatherInfo, Activity, ItineraryDay } from '../types.ts';
+import { SunIcon, PartlyCloudyIcon, CloudIcon, RainIcon, ThunderstormIcon } from '../constants.tsx';
 
 interface ItineraryDisplayProps {
   plan: ItineraryPlan;

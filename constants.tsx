@@ -1,7 +1,7 @@
 
 import React from 'react';
 // FIX: The types are now correctly imported from types.ts after breaking a circular dependency.
-import { ActivityType, TravelCompanion, Budget, BudgetOption, TravelPace, PaceOption } from './types';
+import { ActivityType, TravelCompanion, Budget, BudgetOption, TravelPace, PaceOption } from './types.ts';
 
 export const BeachIcon = () => (
     <svg xmlns="http://www.w3.org/2000/svg" className="h-8 w-8" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" fill="none" strokeLinecap="round" strokeLinejoin="round">
