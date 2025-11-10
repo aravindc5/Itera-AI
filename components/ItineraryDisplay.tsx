@@ -38,28 +38,29 @@ const convertAndFormatPrice = (
   rates: Record<string, number> | null
 ): string => {
   if (!priceString) return 'N/A';
-  if (!rates || targetCurrency === baseCurrency) return priceString;
+  // Do not convert if no rates are available or if the currency is already the target currency.
+  if (!rates || targetCurrency.toUpperCase() === baseCurrency.toUpperCase()) {
+    return priceString;
+  }
 
   const rate = rates[targetCurrency.toUpperCase()];
-  if (!rate) return priceString; // No rate available
+  if (!rate) return priceString; // No conversion rate available for the target currency.
 
-  const numbers = priceString.match(/\d+(\.\d+)?/g)?.map(Number);
-  if (!numbers) return priceString;
+  // Remove commas (thousand separators) to correctly parse numbers.
+  const sanitizedString = priceString.replace(/,/g, '');
+  const numbers = sanitizedString.match(/\d+(\.\d+)?/g)?.map(Number);
+
+  // If no numbers are found (e.g., "Free"), return the original string.
+  if (!numbers || numbers.length === 0) {
+    return priceString;
+  }
 
   const convertedNumbers = numbers.map(num => (num * rate).toFixed(2));
   const symbol = CURRENCY_SYMBOLS[targetCurrency.toUpperCase()] || `${targetCurrency} `;
   
-  let newPriceString = priceString;
-  // Replace original numbers with converted ones
-  for(let i = 0; i < numbers.length; i++) {
-    newPriceString = newPriceString.replace(numbers[i].toString(), convertedNumbers[i]);
-  }
-  // Replace currency symbols/codes
-  newPriceString = newPriceString.replace(/[₹$£€¥]/g, '').trim();
-  const currencyRegex = new RegExp(Object.keys(MOCK_RATES).join('|'), 'gi');
-  newPriceString = newPriceString.replace(currencyRegex, '').trim();
-
-  // Reconstruct with new symbol
+  // Reconstruct the price string with the new currency and values.
+  // This approach is safer than string replacement and handles single values and ranges.
+  // Note: This may lose prefixes like "Approx." but ensures conversion is correct.
   if (convertedNumbers.length > 1) {
     return `${symbol}${convertedNumbers[0]} - ${symbol}${convertedNumbers[1]}`;
   }

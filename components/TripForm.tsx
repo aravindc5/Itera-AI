@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { TripPreferences, ActivityType, TravelCompanion, Budget, TravelPace } from '../types.ts';
 import { ACTIVITIES, COMPANIONS, BUDGETS, TRAVEL_PACE_OPTIONS } from '../constants.tsx';
 
@@ -34,6 +34,7 @@ const SpinnerIcon = () => (
 
 
 const TripForm: React.FC<TripFormProps> = ({ preferences, setPreferences, onSubmit, isLoading, destinationValidation }) => {
+  const [durationError, setDurationError] = useState<string | null>(null);
 
   const handleActivityToggle = (activity: ActivityType) => {
     setPreferences((prev) => {
@@ -44,11 +45,22 @@ const TripForm: React.FC<TripFormProps> = ({ preferences, setPreferences, onSubm
     });
   };
 
+  const handleDurationChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = parseInt(e.target.value, 10) || 0;
+    if (value > 30) {
+        setDurationError("Planning for more than 30 days is coming soon in our premium version!");
+    } else {
+        setDurationError(null);
+    }
+    setPreferences({ ...preferences, duration: value });
+  };
+
   const isFormValid =
     preferences.destination.trim() !== '' &&
     destinationValidation.status !== 'invalid' &&
     preferences.startDate !== '' &&
     preferences.duration > 0 &&
+    preferences.duration <= 30 &&
     preferences.activities.length > 0;
 
   return (
@@ -86,11 +98,15 @@ const TripForm: React.FC<TripFormProps> = ({ preferences, setPreferences, onSubm
             type="number"
             min="1"
             value={preferences.duration || ''}
-            onChange={(e) => setPreferences({ ...preferences, duration: parseInt(e.target.value, 10) || 0 })}
+            onChange={handleDurationChange}
             placeholder="e.g., 7"
             className="w-full bg-gray-50 text-gray-900 placeholder-gray-400 border border-gray-300 rounded-lg px-4 py-3 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 focus:outline-none transition"
             required
+            aria-describedby="duration-info-message"
           />
+          {durationError && (
+            <p id="duration-info-message" className="text-indigo-600 text-sm mt-1">{durationError}</p>
+          )}
         </div>
          <div className="md:col-span-1">
           <label htmlFor="startDate" className="block text-lg font-medium text-gray-700 mb-2">2. Start Date</label>
